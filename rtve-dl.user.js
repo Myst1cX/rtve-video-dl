@@ -89,7 +89,7 @@
 <div id="rtve-dl-body" style="padding:10px 10px 12px;">
   <iframe
     width="304" height="46"
-    src="//www.descargavideos.tv/form.php?l=300&t=f2&c=blanco"
+    src="//www.descargavideos.tv/form.php?l=300&t=f2&c=black"
     name="form_dv"
     allowtransparency="true"
     frameborder="0"
