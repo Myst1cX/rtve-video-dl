@@ -163,32 +163,32 @@
         makeDraggable(widget, document.getElementById('rtve-dl-header'));
     }
 
-    function makeDraggable(el, handle) {
-        let dragging = false, ox = 0, oy = 0;
+    function makeDraggable(popup, handle) {
+        let dragging = false, offsetX = 0, offsetY = 0;
 
         handle.addEventListener('mousedown', (e) => {
             dragging = true;
-            const r = el.getBoundingClientRect();
+            const rect = popup.getBoundingClientRect();
             // Switch from bottom/right anchoring to top/left so movement is natural
-            el.style.bottom = 'auto';
-            el.style.right = 'auto';
-            el.style.left = r.left + 'px';
-            el.style.top = r.top + 'px';
-            ox = e.clientX - r.left;
-            oy = e.clientY - r.top;
+            popup.style.bottom = 'auto';
+            popup.style.right = 'auto';
+            popup.style.left = rect.left + 'px';
+            popup.style.top = rect.top + 'px';
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
             e.preventDefault();
         });
 
         document.addEventListener('mousemove', (e) => {
             if (!dragging) return;
-            el.style.left = (e.clientX - ox) + 'px';
-            el.style.top = (e.clientY - oy) + 'px';
+            popup.style.left = (e.clientX - offsetX) + 'px';
+            popup.style.top = (e.clientY - offsetY) + 'px';
         });
 
         document.addEventListener('mouseup', () => {
             if (dragging) {
                 dragging = false;
-                saveState({ left: el.style.left, top: el.style.top });
+                saveState({ left: popup.style.left, top: popup.style.top });
             }
         });
     }
@@ -206,8 +206,8 @@
     }
 
     // Watch for dynamically inserted <video> elements (SPA)
-    const domObserver = new MutationObserver(attachVideoListeners);
-    domObserver.observe(document.documentElement, { childList: true, subtree: true });
+    const videoWatcher = new MutationObserver(attachVideoListeners);
+    videoWatcher.observe(document.documentElement, { childList: true, subtree: true });
 
     // Update URL field on SPA navigation
     ['pushState', 'replaceState'].forEach((method) => {
