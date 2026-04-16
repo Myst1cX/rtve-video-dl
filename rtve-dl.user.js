@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         RTVE Video and Subtitle Downloader
 // @namespace    https://github.com/Myst1cX/rtve-video-dl
-// @version      1.0
+// @version      1.1
 // @description  A RTVE downloader powered by downloadvideos.tv. Displays the downloadvideos.tv widget on RTVE videos. Works with both HLS and encrypted video streams.
 // @author       Myst1cX
 // @match        https://www.rtve.es/*
@@ -64,29 +64,30 @@
             'right:24px',
             'z-index:2147483647',
             'width:324px',
-            'background:#12122a',
-            'border:1px solid #1e2a4a',
-            'border-radius:10px',
-            'box-shadow:0 6px 28px rgba(0,0,0,.65)',
+            'background:#141414',
+            'border:1px solid rgba(255,255,255,.09)',
+            'border-radius:12px',
+            'box-shadow:0 16px 48px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.06) inset',
             'font-family:Arial,sans-serif',
             'font-size:13px',
-            'color:#e8e8e8',
+            'color:#e0e0e0',
             'user-select:none',
         ].join(';');
 
         widget.innerHTML = `
 <div id="rtve-dl-header" style="
     display:flex;justify-content:space-between;align-items:center;
-    padding:7px 10px;background:#0c2142;border-radius:10px 10px 0 0;cursor:move;">
-  <span style="color:#e94560;font-weight:bold;font-size:13px;">📥 RTVE Downloader</span>
+    padding:9px 12px;background:#0d0d0d;border-radius:12px 12px 0 0;cursor:move;
+    border-bottom:1px solid rgba(255,255,255,.07);">
+  <span style="color:#e94560;font-weight:700;font-size:13px;letter-spacing:.4px;text-transform:uppercase;">📥 RTVE Downloader</span>
   <div style="display:flex;gap:2px;">
     <button id="rtve-dl-min" title="Minimise"
-      style="background:none;border:none;color:#ccc;cursor:pointer;font-size:17px;line-height:1;padding:0 5px;">−</button>
+      style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:17px;line-height:1;padding:0 5px;transition:color .15s;">−</button>
     <button id="rtve-dl-close" title="Close"
-      style="background:none;border:none;color:#ccc;cursor:pointer;font-size:17px;line-height:1;padding:0 5px;">×</button>
+      style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:17px;line-height:1;padding:0 5px;transition:color .15s;">×</button>
   </div>
 </div>
-<div id="rtve-dl-body" style="padding:10px 10px 12px;">
+<div id="rtve-dl-body" style="padding:10px 10px 13px;">
   <iframe
     width="304" height="46"
     src="//www.descargavideos.tv/form.php?l=300&t=f2&c=negro"
@@ -96,18 +97,18 @@
     scrolling="no"
     style="display:block;border:0;">
   </iframe>
-  <div style="margin-top:9px;">
-    <div style="color:#7a8aaa;font-size:11px;margin-bottom:4px;">
-      Current video page URL — paste it into the widget above:
+  <div style="margin-top:10px;border-top:1px solid rgba(255,255,255,.07);padding-top:10px;">
+    <div style="color:rgba(255,255,255,.38);font-size:11px;margin-bottom:6px;letter-spacing:.15px;">
+      Current page URL — paste into the widget above:
     </div>
-    <div style="display:flex;gap:5px;">
+    <div style="display:flex;gap:6px;">
       <input id="rtve-dl-url-input" type="text" readonly
-        style="flex:1;min-width:0;background:#0a0a1e;border:1px solid #2a3a5a;
-               color:#dde;padding:4px 7px;border-radius:5px;font-size:11px;outline:none;" />
+        style="flex:1;min-width:0;background:#0d0d0d;border:1px solid rgba(255,255,255,.1);
+               color:rgba(255,255,255,.7);padding:5px 8px;border-radius:6px;font-size:11px;outline:none;" />
       <button id="rtve-dl-copy"
-        style="background:#e94560;border:none;color:#fff;padding:4px 9px;
-               border-radius:5px;cursor:pointer;font-size:11px;white-space:nowrap;
-               transition:background .2s;">Copy</button>
+        style="background:#e94560;border:none;color:#fff;padding:5px 11px;
+               border-radius:6px;cursor:pointer;font-size:11px;white-space:nowrap;font-weight:700;
+               letter-spacing:.3px;transition:background .2s;">Copy</button>
     </div>
   </div>
 </div>`;
