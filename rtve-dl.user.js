@@ -18,6 +18,7 @@
 
     const WIDGET_ID = 'rtve-dl-widget';
     const STORAGE_KEY = 'rtve-dl-state';
+    const SPA_NAV_DELAY = 300; // ms to wait after navigation before reading the new URL
     const CSS_PX = /^-?\d+(\.\d+)?px$/;
 
     // ── Persistence ───────────────────────────────────────────────────────────
@@ -213,7 +214,7 @@
         const original = history[method];
         history[method] = function (...args) {
             original.apply(this, args);
-            setTimeout(updateUrlField, 300);
+            setTimeout(updateUrlField, SPA_NAV_DELAY);
         };
     });
     window.addEventListener('popstate', updateUrlField);
