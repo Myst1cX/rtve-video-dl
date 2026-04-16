@@ -49,6 +49,8 @@
 
     // ── Widget ────────────────────────────────────────────────────────────────
 
+    let cleanupDrag = null;
+
     function createWidget() {
         if (document.getElementById(WIDGET_ID)) {
             updateUrlField();
@@ -140,11 +142,6 @@
             saveState({ minimised });
         });
 
-        // Close
-        document.getElementById('rtve-dl-close').addEventListener('click', () => {
-            widget.remove();
-        });
-
         // Copy button
         const copyBtn = document.getElementById('rtve-dl-copy');
         let copyTimer;
@@ -160,7 +157,13 @@
         });
 
         // Drag
-        makeDraggable(widget, document.getElementById('rtve-dl-header'));
+        cleanupDrag = makeDraggable(widget, document.getElementById('rtve-dl-header'));
+
+        // Close
+        document.getElementById('rtve-dl-close').addEventListener('click', () => {
+            if (cleanupDrag) { cleanupDrag(); cleanupDrag = null; }
+            widget.remove();
+        });
     }
 
     function makeDraggable(popup, handle) {
@@ -179,18 +182,26 @@
             e.preventDefault();
         });
 
-        document.addEventListener('mousemove', (e) => {
+        function onMouseMove(e) {
             if (!dragging) return;
             popup.style.left = (e.clientX - offsetX) + 'px';
             popup.style.top = (e.clientY - offsetY) + 'px';
-        });
+        }
 
-        document.addEventListener('mouseup', () => {
+        function onMouseUp() {
             if (dragging) {
                 dragging = false;
                 saveState({ left: popup.style.left, top: popup.style.top });
             }
-        });
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+
+        return function cleanupDrag() {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        };
     }
 
     // ── URL-based detection ───────────────────────────────────────────────────
@@ -200,6 +211,7 @@
     }
 
     function removeWidget() {
+        if (cleanupDrag) { cleanupDrag(); cleanupDrag = null; }
         const existing = document.getElementById(WIDGET_ID);
         if (existing) existing.remove();
     }
